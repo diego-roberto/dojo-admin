@@ -33,4 +33,9 @@ public class Aula {
             inverseJoinColumns = @JoinColumn(name = "aluno_id")
     )
     private List<Aluno> participantes;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "sensei_id")
+    private Aluno senseiResponsavel;
+
 }
