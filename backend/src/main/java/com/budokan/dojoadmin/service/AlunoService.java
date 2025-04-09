@@ -41,10 +41,15 @@ public class AlunoService {
 
     @Transactional
     public Aluno save(AlunoAdminDTO dto) {
+        if (alunoRepository.findByUsuarioIgnoreCase(dto.getUsuario()).isPresent()) {
+            throw new IllegalArgumentException("Usuário já cadastrado");
+        }
+
         Aluno aluno = alunoMapper.fromAdminDTO(dto);
 
         /* primeira senha é gerada com data de nascimento */
         aluno.setPassword(gerarSenhaPadrao(dto.getDataNascimento()));
+        aluno.setStatus(StatusAluno.ATIVO);
 
         return alunoRepository.save(aluno);
     }
@@ -59,7 +64,7 @@ public class AlunoService {
         Aluno updated = alunoMapper.fromAdminDTO(dto);
 
         existing.setNome(updated.getNome());
-        existing.setUsuario(updated.getUsuario());
+        existing.setUsuario(dto.getUsuario() != null && !dto.getUsuario().isBlank() ? dto.getUsuario() : existing.getUsuario());
         existing.setDataNascimento(updated.getDataNascimento());
         existing.setGraduacaoKyu(updated.getGraduacaoKyu());
         existing.setFaixaAtual(updated.getFaixaAtual());
@@ -70,6 +75,19 @@ public class AlunoService {
         existing.setRoles(updated.getRoles());
 
         return alunoRepository.save(existing);
+    }
+
+    @Transactional
+    public void inativar(UUID id, String executor) {
+        Aluno aluno = alunoRepository.findById(id).orElseThrow();
+        aluno.setStatus(StatusAluno.INATIVO);
+        aluno.setUltimaAlteracaoSenha(auditoria("Inativado por " + executor));
+        alunoRepository.save(aluno);
+    }
+
+    @Transactional
+    public void delete(UUID id) {
+        alunoRepository.deleteById(id);
     }
 
     @Transactional

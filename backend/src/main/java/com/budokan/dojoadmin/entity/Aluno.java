@@ -29,10 +29,10 @@ public class Aluno {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotBlank
+    @NotBlank(message = "Nome é obrigatório")
     private String nome;
 
-    @NotBlank
+    @NotBlank(message = "Username é obrigatório")
     private String usuario;
 
     @Past
