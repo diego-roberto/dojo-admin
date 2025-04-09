@@ -8,7 +8,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,6 +46,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleDuplicateKey(DataIntegrityViolationException ex) {
         String msg = "Registro já existente com valor único (usuário)";
         return ResponseEntity.status(HttpStatus.CONFLICT).body(msg);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<String> handleDateParseError(MethodArgumentTypeMismatchException ex) {
+        if (ex.getRequiredType() == LocalDate.class) {
+            return ResponseEntity.badRequest().body("Formato de data inválido. Use AAAA-MM-DD.");
+        }
+        return ResponseEntity.badRequest().body("Parâmetro inválido: " + ex.getMessage());
     }
 
 }
