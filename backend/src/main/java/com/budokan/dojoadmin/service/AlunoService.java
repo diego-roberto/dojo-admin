@@ -1,6 +1,6 @@
 package com.budokan.dojoadmin.service;
 
-import com.budokan.dojoadmin.dto.AlunoAdminDTO;
+import com.budokan.dojoadmin.dto.aluno.AlunoAdminDTO;
 import com.budokan.dojoadmin.entity.Aluno;
 import com.budokan.dojoadmin.enums.StatusAluno;
 import com.budokan.dojoadmin.mapper.AlunoMapper;

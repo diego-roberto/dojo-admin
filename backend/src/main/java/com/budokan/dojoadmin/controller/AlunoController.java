@@ -1,7 +1,7 @@
 package com.budokan.dojoadmin.controller;
 
-import com.budokan.dojoadmin.dto.AlunoAdminDTO;
-import com.budokan.dojoadmin.dto.AlunoPublicDTO;
+import com.budokan.dojoadmin.dto.aluno.AlunoAdminDTO;
+import com.budokan.dojoadmin.dto.aluno.AlunoPublicDTO;
 import com.budokan.dojoadmin.entity.Aluno;
 import com.budokan.dojoadmin.mapper.AlunoMapper;
 import com.budokan.dojoadmin.service.AlunoService;

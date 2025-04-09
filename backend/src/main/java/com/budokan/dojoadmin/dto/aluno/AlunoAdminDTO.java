@@ -1,4 +1,4 @@
-package com.budokan.dojoadmin.dto;
+package com.budokan.dojoadmin.dto.aluno;
 
 import com.budokan.dojoadmin.enums.Faixa;
 import com.budokan.dojoadmin.enums.StatusAluno;

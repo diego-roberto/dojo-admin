@@ -1,7 +1,7 @@
 package com.budokan.dojoadmin.mapper;
 
-import com.budokan.dojoadmin.dto.AlunoAdminDTO;
-import com.budokan.dojoadmin.dto.AlunoPublicDTO;
+import com.budokan.dojoadmin.dto.aluno.AlunoAdminDTO;
+import com.budokan.dojoadmin.dto.aluno.AlunoPublicDTO;
 import com.budokan.dojoadmin.entity.Aluno;
 import com.budokan.dojoadmin.enums.Role;
 import com.budokan.dojoadmin.util.GraduacaoHelper;

@@ -1,4 +1,4 @@
-package com.budokan.dojoadmin.dto;
+package com.budokan.dojoadmin.dto.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

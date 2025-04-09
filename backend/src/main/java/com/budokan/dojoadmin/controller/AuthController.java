@@ -1,7 +1,7 @@
 package com.budokan.dojoadmin.controller;
 
-import com.budokan.dojoadmin.dto.LoginDTO;
-import com.budokan.dojoadmin.dto.TokenDTO;
+import com.budokan.dojoadmin.dto.auth.LoginDTO;
+import com.budokan.dojoadmin.dto.auth.TokenDTO;
 import com.budokan.dojoadmin.security.JwtUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
