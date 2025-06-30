@@ -3,6 +3,7 @@ package com.budokan.dojoadmin.service;
 import com.budokan.dojoadmin.dto.aluno.AlunoAdminDTO;
 import com.budokan.dojoadmin.entity.Aluno;
 import com.budokan.dojoadmin.enums.StatusAluno;
+import com.budokan.dojoadmin.enums.Role;
 import com.budokan.dojoadmin.mapper.AlunoMapper;
 import com.budokan.dojoadmin.repository.AlunoRepository;
 import jakarta.transaction.Transactional;
@@ -22,6 +23,14 @@ public class AlunoService {
     private final AlunoRepository alunoRepository;
     private final AlunoMapper alunoMapper;
     private final PasswordEncoder passwordEncoder;
+
+    private void addSenseiRoleIfNeeded(Aluno aluno) {
+        if (aluno.getGraduacaoKyu() >= 91 && (aluno.getRoles() == null || !aluno.getRoles().contains(Role.SENSEI))) {
+            Set<Role> roles = aluno.getRoles() == null ? new HashSet<>() : new HashSet<>(aluno.getRoles());
+            roles.add(Role.SENSEI);
+            aluno.setRoles(roles);
+        }
+    }
 
     public List<Aluno> findAll() {
         return alunoRepository.findAll();
@@ -46,6 +55,8 @@ public class AlunoService {
         }
 
         Aluno aluno = alunoMapper.fromAdminDTO(dto);
+
+        addSenseiRoleIfNeeded(aluno);
 
         /* primeira senha é gerada com data de nascimento */
         aluno.setPassword(gerarSenhaPadrao(dto.getDataNascimento()));
@@ -72,7 +83,10 @@ public class AlunoService {
         existing.setDataUltimoExame(updated.getDataUltimoExame());
         existing.setStatus(updated.getStatus());
         existing.setObservacoes(updated.getObservacoes());
+
         existing.setRoles(updated.getRoles());
+
+        addSenseiRoleIfNeeded(existing);
 
         return alunoRepository.save(existing);
     }
