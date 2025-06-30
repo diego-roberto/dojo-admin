@@ -3,6 +3,7 @@ package com.budokan.dojoadmin.controller;
 import com.budokan.dojoadmin.dto.aluno.AlunoAdminDTO;
 import com.budokan.dojoadmin.dto.aluno.AlunoPublicDTO;
 import com.budokan.dojoadmin.entity.Aluno;
+import com.budokan.dojoadmin.exception.AlunoVinculadoException;
 import com.budokan.dojoadmin.mapper.AlunoMapper;
 import com.budokan.dojoadmin.service.AlunoService;
 import com.budokan.dojoadmin.util.RoleUtil;
@@ -144,6 +145,8 @@ public class AlunoController {
             return ResponseEntity.ok("Aluno excluído com sucesso");
         } catch (EmptyResultDataAccessException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Aluno não encontrado");
+        } catch (AlunoVinculadoException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
 

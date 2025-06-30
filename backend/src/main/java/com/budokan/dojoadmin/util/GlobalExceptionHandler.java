@@ -1,6 +1,7 @@
 package com.budokan.dojoadmin.util;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import com.budokan.dojoadmin.exception.AlunoVinculadoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -58,6 +59,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleDuplicateKey(DataIntegrityViolationException ex) {
         String msg = "Registro já existente com valor único (usuário)";
         return ResponseEntity.status(HttpStatus.CONFLICT).body(msg);
+    }
+
+    @ExceptionHandler(AlunoVinculadoException.class)
+    public ResponseEntity<String> handleAlunoVinculado(AlunoVinculadoException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
