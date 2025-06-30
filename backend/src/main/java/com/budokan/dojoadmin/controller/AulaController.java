@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/aulas")
@@ -66,6 +67,26 @@ public class AulaController {
         Pageable pageable = PageRequest.of(page, size, Sort.by("data").descending());
         Page<AulaResponseDTO> pageResult = aulaService.findByDateBetween(inicio, fim, pageable)
                 .map(aulaMapper::toDTO);
+        return ResponseEntity.ok(pageResult);
+    }
+
+    @GetMapping("/sensei/{id}")
+    public ResponseEntity<Page<AulaResponseDTO>> historicoPorSensei(@PathVariable UUID id,
+                                                                    @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
+                                                                    @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim,
+                                                                    @RequestParam(defaultValue = "0") int page,
+                                                                    @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("data").descending());
+
+        Page<AulaResponseDTO> pageResult;
+        if (inicio != null && fim != null) {
+            pageResult = aulaService.findBySenseiAndDateBetween(id, inicio, fim, pageable)
+                    .map(aulaMapper::toDTO);
+        } else {
+            pageResult = aulaService.findBySensei(id, pageable)
+                    .map(aulaMapper::toDTO);
+        }
+
         return ResponseEntity.ok(pageResult);
     }
 

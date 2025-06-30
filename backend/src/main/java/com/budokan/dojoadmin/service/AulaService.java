@@ -38,5 +38,13 @@ public class AulaService {
         return aulaRepository.findByDataBetween(inicio, fim, pageable);
     }
 
+    public Page<Aula> findBySensei(UUID senseiId, Pageable pageable) {
+        return aulaRepository.findBySenseiResponsavelId(senseiId, pageable);
+    }
+
+    public Page<Aula> findBySenseiAndDateBetween(UUID senseiId, LocalDate inicio, LocalDate fim, Pageable pageable) {
+        return aulaRepository.findBySenseiResponsavelIdAndDataBetween(senseiId, inicio, fim, pageable);
+    }
+
 }
 
