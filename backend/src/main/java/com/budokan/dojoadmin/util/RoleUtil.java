@@ -16,4 +16,10 @@ public class RoleUtil {
                 .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
     }
 
+    public static boolean isTesouraria(Authentication auth) {
+        return auth.getAuthorities()
+                .stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_TESOURARIA"));
+    }
+
 }
