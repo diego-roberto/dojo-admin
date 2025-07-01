@@ -6,6 +6,8 @@ import com.budokan.dojoadmin.entity.Aluno;
 import com.budokan.dojoadmin.exception.AlunoVinculadoException;
 import com.budokan.dojoadmin.mapper.AlunoMapper;
 import com.budokan.dojoadmin.service.AlunoService;
+import com.budokan.dojoadmin.service.AulaService;
+import com.budokan.dojoadmin.dto.aula.FrequenciaDTO;
 import com.budokan.dojoadmin.util.RoleUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +18,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,6 +31,7 @@ public class AlunoController {
     private final AlunoService alunoService;
 
     private final AlunoMapper alunoMapper;
+    private final AulaService aulaService;
 
     @GetMapping
     public ResponseEntity<List<?>> getAll(Authentication auth) {
@@ -162,6 +167,24 @@ public class AlunoController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+
+    @GetMapping("/{id}/frequencia")
+    public ResponseEntity<?> frequenciaAluno(@PathVariable UUID id,
+                                             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
+                                             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim) {
+
+        Optional<Aluno> alunoOpt = alunoService.findById(id);
+        if (alunoOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Aluno não encontrado.");
+        }
+
+        if (inicio == null && fim == null) {
+            return ResponseEntity.badRequest().body("Parâmetros inválidos");
+        }
+
+        FrequenciaDTO dto = aulaService.calcularFrequenciaAluno(id, inicio, fim);
+        return ResponseEntity.ok(dto);
     }
 
 }
