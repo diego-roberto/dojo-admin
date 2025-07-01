@@ -6,6 +6,10 @@ import com.budokan.dojoadmin.enums.StatusAluno;
 import com.budokan.dojoadmin.enums.Role;
 import com.budokan.dojoadmin.mapper.AlunoMapper;
 import com.budokan.dojoadmin.repository.AlunoRepository;
+import com.budokan.dojoadmin.repository.AulaRepository;
+import com.budokan.dojoadmin.repository.ExameRepository;
+import com.budokan.dojoadmin.repository.MensalidadeRepository;
+import com.budokan.dojoadmin.exception.AlunoVinculadoException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +27,9 @@ public class AlunoService {
     private final AlunoRepository alunoRepository;
     private final AlunoMapper alunoMapper;
     private final PasswordEncoder passwordEncoder;
+    private final MensalidadeRepository mensalidadeRepository;
+    private final ExameRepository exameRepository;
+    private final AulaRepository aulaRepository;
 
     private void addSenseiRoleIfNeeded(Aluno aluno) {
         if (aluno.getGraduacaoKyu() >= 91 && (aluno.getRoles() == null || !aluno.getRoles().contains(Role.SENSEI))) {
@@ -101,6 +108,14 @@ public class AlunoService {
 
     @Transactional
     public void delete(UUID id) {
+        boolean hasMensalidades = !mensalidadeRepository.findByAlunoId(id).isEmpty();
+        boolean hasExames = !exameRepository.findByAlunoId(id).isEmpty();
+        boolean hasAulas = aulaRepository.existsByParticipantes_Id(id) || aulaRepository.existsBySenseiResponsavel_Id(id);
+
+        if (hasMensalidades || hasExames || hasAulas) {
+            throw new AlunoVinculadoException("Não é possível excluir um aluno vinculado a mensalidades, exames ou presenças.");
+        }
+
         alunoRepository.deleteById(id);
     }
 
