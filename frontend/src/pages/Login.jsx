@@ -24,26 +24,29 @@ export default function Login() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <form onSubmit={handleSubmit} className="bg-white p-8 rounded shadow max-w-xs w-full">
-        <h1 className="text-xl font-bold mb-6">Entrar</h1>
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-blue-50 to-blue-100 p-4">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-8 rounded-xl shadow-lg w-full max-w-xs"
+      >
+        <h1 className="text-2xl font-bold mb-6 text-center text-gray-700">Entrar</h1>
         <input
-          className="w-full mb-3 p-2 border rounded"
+          className="w-full mb-4 p-2 border rounded focus:outline-none focus:ring"
           placeholder="Usuário"
           autoFocus
           value={username}
-          onChange={e => setUsername(e.target.value)}
+          onChange={(e) => setUsername(e.target.value)}
         />
         <input
-          className="w-full mb-3 p-2 border rounded"
+          className="w-full mb-4 p-2 border rounded focus:outline-none focus:ring"
           placeholder="Senha"
           type="password"
           value={password}
-          onChange={e => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
         />
         <button
           type="submit"
-          className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-bold"
+          className="w-full py-2 bg-red-600 hover:bg-red-700 text-white rounded font-bold"
           disabled={loading}
         >
           {loading ? "Entrando..." : "Entrar"}
