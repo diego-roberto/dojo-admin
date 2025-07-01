@@ -171,8 +171,6 @@ public class AlunoController {
 
     @GetMapping("/{id}/frequencia")
     public ResponseEntity<?> frequenciaAluno(@PathVariable UUID id,
-                                             @RequestParam(required = false) Integer ano,
-                                             @RequestParam(required = false) Integer mes,
                                              @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
                                              @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim) {
 
@@ -181,23 +179,11 @@ public class AlunoController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Aluno não encontrado.");
         }
 
-        LocalDate start;
-        LocalDate end;
-
-        if (inicio != null && fim != null) {
-            start = inicio;
-            end = fim;
-        } else if (ano != null && mes != null) {
-            start = LocalDate.of(ano, mes, 1);
-            end = start.withDayOfMonth(start.lengthOfMonth());
-        } else if (ano != null) {
-            start = LocalDate.of(ano, 1, 1);
-            end = LocalDate.of(ano, 12, 31);
-        } else {
+        if (inicio == null && fim == null) {
             return ResponseEntity.badRequest().body("Parâmetros inválidos");
         }
 
-        FrequenciaDTO dto = aulaService.calcularFrequenciaAluno(id, start, end);
+        FrequenciaDTO dto = aulaService.calcularFrequenciaAluno(id, inicio, fim);
         return ResponseEntity.ok(dto);
     }
 
