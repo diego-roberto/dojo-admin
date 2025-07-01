@@ -6,6 +6,7 @@ import com.budokan.dojoadmin.enums.StatusAluno;
 import com.budokan.dojoadmin.enums.Role;
 import com.budokan.dojoadmin.mapper.AlunoMapper;
 import com.budokan.dojoadmin.repository.AlunoRepository;
+import com.budokan.dojoadmin.util.GraduacaoHelper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,6 +39,29 @@ public class AlunoService {
 
     public List<Aluno> findAllActive() {
         return alunoRepository.findByStatus(StatusAluno.ATIVO);
+    }
+
+    public long countActive() {
+        return alunoRepository.countByStatus(StatusAluno.ATIVO);
+    }
+
+    public List<Aluno> findAptosExame() {
+        LocalDate hoje = LocalDate.now();
+        return findAllActive().stream()
+                .filter(a -> !GraduacaoHelper.isDan(a.getGraduacaoKyu()))
+                .filter(a -> {
+                    Integer meses = GraduacaoHelper.getMesesCarenciaExame(a.getGraduacaoKyu());
+                    if (meses == null) {
+                        return false;
+                    }
+                    LocalDate ultimo = a.getDataUltimoExame();
+                    return ultimo == null || !ultimo.plusMonths(meses).isAfter(hoje);
+                })
+                .toList();
+    }
+
+    public List<Aluno> findAniversariantes(int mes) {
+        return alunoRepository.findAniversariantes(StatusAluno.ATIVO, mes);
     }
 
     public Optional<Aluno> findById(UUID id) {
