@@ -40,6 +40,7 @@ public class AulaService {
         return aulaRepository.findByDataBetween(inicio, fim, pageable);
     }
 
+
     public FrequenciaDTO calcularFrequenciaAluno(UUID alunoId, LocalDate inicio, LocalDate fim) {
         List<Aula> aulasPeriodo = aulaRepository.findByDataBetween(inicio, fim);
         List<Aula> presencas = aulaRepository.findByParticipantes_IdAndDataBetween(alunoId, inicio, fim);
@@ -54,6 +55,14 @@ public class AulaService {
                 .percentual(percentual)
                 .datas(datas)
                 .build();
+
+    public Page<Aula> findBySensei(UUID senseiId, Pageable pageable) {
+        return aulaRepository.findBySenseiResponsavelId(senseiId, pageable);
+    }
+
+    public Page<Aula> findBySenseiAndDateBetween(UUID senseiId, LocalDate inicio, LocalDate fim, Pageable pageable) {
+        return aulaRepository.findBySenseiResponsavelIdAndDataBetween(senseiId, inicio, fim, pageable);
+
     }
 
 }
