@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api";
 
 const AuthContext = createContext();
 
@@ -27,7 +27,7 @@ export function AuthProvider({ children }) {
 
   const login = async (username, password) => {
     try {
-      const res = await axios.post("/auth/login", {
+      const res = await api.post("/auth/login", {
         nome: username,
         password,
       });
@@ -47,11 +47,21 @@ export function AuthProvider({ children }) {
   };
 
   useEffect(() => {
-    const req = axios.interceptors.request.use((config) => {
+    const req = api.interceptors.request.use((config) => {
       if (token) config.headers.Authorization = `Bearer ${token}`;
       return config;
     });
-    return () => axios.interceptors.request.eject(req);
+    const resp = api.interceptors.response.use(
+      r => r,
+      err => {
+        if (err.response && err.response.status === 401) logout();
+        return Promise.reject(err);
+      }
+    );
+    return () => {
+      api.interceptors.request.eject(req);
+      api.interceptors.response.eject(resp);
+    };
   }, [token]);
 
   return (
