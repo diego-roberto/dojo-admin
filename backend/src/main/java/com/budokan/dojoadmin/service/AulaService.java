@@ -1,6 +1,7 @@
 package com.budokan.dojoadmin.service;
 
 import com.budokan.dojoadmin.dto.aula.AulaRequestDTO;
+import com.budokan.dojoadmin.dto.aula.FrequenciaDTO;
 import com.budokan.dojoadmin.entity.Aula;
 import com.budokan.dojoadmin.mapper.AulaMapper;
 import com.budokan.dojoadmin.repository.AulaRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +38,22 @@ public class AulaService {
 
     public Page<Aula> findByDateBetween(LocalDate inicio, LocalDate fim, Pageable pageable) {
         return aulaRepository.findByDataBetween(inicio, fim, pageable);
+    }
+
+    public FrequenciaDTO calcularFrequenciaAluno(UUID alunoId, LocalDate inicio, LocalDate fim) {
+        List<Aula> aulasPeriodo = aulaRepository.findByDataBetween(inicio, fim);
+        List<Aula> presencas = aulaRepository.findByParticipantes_IdAndDataBetween(alunoId, inicio, fim);
+
+        long totalPresencas = presencas.size();
+        double percentual = aulasPeriodo.isEmpty() ? 0.0 : (double) totalPresencas / aulasPeriodo.size() * 100;
+
+        List<LocalDate> datas = presencas.stream().map(Aula::getData).toList();
+
+        return FrequenciaDTO.builder()
+                .totalPresencas(totalPresencas)
+                .percentual(percentual)
+                .datas(datas)
+                .build();
     }
 
 }

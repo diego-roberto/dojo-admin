@@ -16,4 +16,8 @@ public interface AulaRepository extends JpaRepository<Aula, UUID> {
     List<Aula> findByData(LocalDate data);
     Page<Aula> findByDataBetween(LocalDate inicio, LocalDate fim, Pageable pageable);
 
+    List<Aula> findByDataBetween(LocalDate inicio, LocalDate fim);
+
+    List<Aula> findByParticipantes_IdAndDataBetween(UUID alunoId, LocalDate inicio, LocalDate fim);
+
 }
