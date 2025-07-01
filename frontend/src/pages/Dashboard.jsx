@@ -60,9 +60,9 @@ export default function Dashboard() {
       </section>
 
       <section>
-        <h2 className="text-xl font-semibold mb-2">Matrículas pendentes</h2>
+        <h2 className="text-xl font-semibold mb-2">Mensalidades pendentes</h2>
         {pendentes.length === 0 ? (
-          <p>Nenhuma matrícula pendente.</p>
+          <p>Nenhuma Mensalidade pendente.</p>
         ) : (
           <ul className="list-disc pl-5">
             {pendentes.map((m) => (
