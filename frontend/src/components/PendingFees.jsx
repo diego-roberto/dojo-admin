@@ -11,7 +11,7 @@ export default function PendingFees() {
     async function load() {
       try {
         const month = new Date().toISOString().slice(0, 7).replace("/", "-");
-        const res = await api.get(`/mensalidades/mes/${month}/status/PENDENTE`);
+        const res = await api.get(`/mensalidades/status/PENDENTE`);
         setPendentes(res.data);
       } catch (err) {
         if (err.response && err.response.status === 403) {
