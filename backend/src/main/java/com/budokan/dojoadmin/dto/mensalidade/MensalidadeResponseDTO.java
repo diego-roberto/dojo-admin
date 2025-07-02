@@ -16,6 +16,7 @@ import java.util.UUID;
 public class MensalidadeResponseDTO {
     private UUID id;
     private UUID alunoId;
+    private String nomeAluno;
     private String mesReferencia;
     private StatusPagamento statusPagamento;
     private Boolean isencao;

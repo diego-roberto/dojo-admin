@@ -12,8 +12,10 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     if (token) {
       localStorage.setItem("token", token);
+      api.defaults.headers.common.Authorization = `Bearer ${token}`;
     } else {
       localStorage.removeItem("token");
+      delete api.defaults.headers.common.Authorization;
     }
   }, [token]);
 
@@ -33,6 +35,7 @@ export function AuthProvider({ children }) {
       });
       setToken(res.data.token);
       setUser({ username });
+      api.defaults.headers.common.Authorization = `Bearer ${res.data.token}`;
       return { success: true };
     } catch (err) {
       setToken(null);
@@ -44,25 +47,21 @@ export function AuthProvider({ children }) {
   const logout = () => {
     setToken(null);
     setUser(null);
+    delete api.defaults.headers.common.Authorization;
   };
 
   useEffect(() => {
-    const req = api.interceptors.request.use((config) => {
-      if (token) config.headers.Authorization = `Bearer ${token}`;
-      return config;
-    });
     const resp = api.interceptors.response.use(
-      r => r,
-      err => {
+      (r) => r,
+      (err) => {
         if (err.response && err.response.status === 401) logout();
         return Promise.reject(err);
       }
     );
     return () => {
-      api.interceptors.request.eject(req);
       api.interceptors.response.eject(resp);
     };
-  }, [token]);
+  }, []);
 
   return (
     <AuthContext.Provider value={{ token, user, login, logout }}>
