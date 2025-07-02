@@ -14,7 +14,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class ExameResponseDTO {
-    private UUID id;
     private String nomeAluno;
     private LocalDate dataExame;
     private int kyu;
