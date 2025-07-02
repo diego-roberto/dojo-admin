@@ -15,7 +15,7 @@ export default function Dashboard() {
           api.get("/alunos/ativos"),
           api.get("/exames/proximos"),
           api.get(
-            `/mensalidades?mes=${new Date().toISOString().slice(0, 7).replace("-", "/")}&status=PENDENTE`
+            `/mensalidades/mes/${new Date().toISOString().slice(0, 7).replace("/", "-")}/status/PENDENTE`
           ),
         ]);
         setAlunos(alunosRes.data);
