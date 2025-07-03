@@ -24,7 +24,7 @@ export default function UpcomingExams() {
   if (error) return <p className="mt-4 text-center text-red-500">{error}</p>;
 
   return (
-    <section>
+    <section className="bg-white p-4 rounded shadow">
       <h2 className="text-xl font-semibold mb-2">Próximos exames</h2>
       {exames.length === 0 ? (
         <p>Nenhum exame agendado.</p>

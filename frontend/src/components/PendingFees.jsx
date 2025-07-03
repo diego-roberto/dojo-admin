@@ -31,7 +31,7 @@ export default function PendingFees() {
   if (error) return <p className="mt-4 text-center text-red-500">{error}</p>;
 
   return (
-    <section>
+    <section className="bg-white p-4 rounded shadow">
       <h2 className="text-xl font-semibold mb-2">Mensalidades pendentes</h2>
       {pendentes.length === 0 ? (
         <p>Nenhuma Mensalidade pendente.</p>

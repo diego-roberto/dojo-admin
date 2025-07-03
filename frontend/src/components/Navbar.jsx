@@ -9,20 +9,22 @@ export default function Navbar() {
     isActive ? "underline font-semibold" : "hover:underline";
 
   return (
-    <nav className="bg-[#E30C0C] text-white p-4 flex space-x-4">
-      <NavLink to="/" className="mr-4 font-bold">
-        Budokan
-      </NavLink>
-      <NavLink to="/alunos" className={linkClass}>
-        Alunos
-      </NavLink>
-      <NavLink to="/mensalidades" className={linkClass}>
-        Mensalidades
-      </NavLink>
-      <NavLink to="/aulas" className={linkClass}>
-        Aulas
-      </NavLink>
-      <div className="ml-auto flex items-center space-x-2">
+    <nav className="bg-[#E30C0C] text-white p-4 flex items-center justify-between">
+      <div className="flex items-center space-x-4">
+        <NavLink to="/" className="mr-4 font-bold">
+          Budokan
+        </NavLink>
+        <NavLink to="/alunos" className={linkClass}>
+          Alunos
+        </NavLink>
+        <NavLink to="/mensalidades" className={linkClass}>
+          Mensalidades
+        </NavLink>
+        <NavLink to="/aulas" className={linkClass}>
+          Aulas
+        </NavLink>
+      </div>
+      <div className="flex items-center space-x-2">
         <span>{user?.username}</span>
         <button onClick={logout} className="underline">
           Sair
