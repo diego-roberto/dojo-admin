@@ -3,6 +3,10 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./auth/AuthContext";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import Layout from "./components/Layout";
+import AlunoPage from "./pages/AlunoPage";
+import MensalidadePage from "./pages/MensalidadePage";
+import AulaPage from "./pages/AulaPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -19,7 +23,19 @@ export default function App() {
         <ToastContainer />
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <Layout />
+              </PrivateRoute>
+            }
+          >
+            <Route index element={<Dashboard />} />
+            <Route path="alunos" element={<AlunoPage />} />
+            <Route path="mensalidades" element={<MensalidadePage />} />
+            <Route path="aulas" element={<AulaPage />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </AuthProvider>
