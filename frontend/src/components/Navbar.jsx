@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 
 export default function Navbar() {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
 
   const linkClass = ({ isActive }) =>
     isActive ? "underline font-semibold" : "hover:underline";
@@ -22,9 +22,12 @@ export default function Navbar() {
       <NavLink to="/aulas" className={linkClass}>
         Aulas
       </NavLink>
-      <button onClick={logout} className="ml-auto underline">
-        Sair
-      </button>
+      <div className="ml-auto flex items-center space-x-2">
+        <span>{user?.username}</span>
+        <button onClick={logout} className="underline">
+          Sair
+        </button>
+      </div>
     </nav>
   );
 }
