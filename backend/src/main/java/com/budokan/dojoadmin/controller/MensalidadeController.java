@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.NoSuchElementException;
 
@@ -107,11 +108,14 @@ public class MensalidadeController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Sem permissão para executar ação");
         }
 
-        return mensalidadeService.findById(id)
-                .map(m -> ResponseEntity.ok(mensalidadeMapper.toDTO(m)))
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Mensalidade não encontrada"));
-    }
+        Optional<Mensalidade> mensalidadeOpt = mensalidadeService.findById(id);
+        if (mensalidadeOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Mensalidade não encontrada");
+        }
 
+        MensalidadeResponseDTO dto = mensalidadeMapper.toDTO(mensalidadeOpt.get());
+        return ResponseEntity.ok(dto);
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable UUID id,
