@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/mensalidades")
@@ -48,6 +49,21 @@ public class MensalidadeController {
         List<MensalidadeResponseDTO> dtos = mensalidadeService.findByAluno(alunoId)
                 .stream().map(mensalidadeMapper::toDTO).toList();
         return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping("/aluno/nome/{nome}")
+    public ResponseEntity<?> getByAlunoNome(@PathVariable String nome, Authentication auth) {
+        if (!RoleUtil.isTesouraria(auth)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Sem permissão para executar ação");
+        }
+
+        try {
+            List<MensalidadeResponseDTO> dtos = mensalidadeService.findByAlunoNome(nome)
+                    .stream().map(mensalidadeMapper::toDTO).toList();
+            return ResponseEntity.ok(dtos);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     @GetMapping("/mes/{anoMes}/status/{status}")
