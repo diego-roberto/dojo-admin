@@ -50,17 +50,41 @@ public class MensalidadeController {
         return ResponseEntity.ok(dtos);
     }
 
-    @GetMapping
-    public ResponseEntity<?> getByMesStatus(@RequestParam String mes, @RequestParam StatusPagamento status,
+    @GetMapping("/mes/{anoMes}/status/{status}")
+    public ResponseEntity<?> getByMesStatus(@PathVariable String anoMes, @PathVariable StatusPagamento status,
                                             Authentication auth) {
         if (!RoleUtil.isTesouraria(auth)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Sem permissão para executar ação");
         }
 
-        List<MensalidadeResponseDTO> dtos = mensalidadeService.findByMesAndStatus(mes, status)
+        List<MensalidadeResponseDTO> dtos = mensalidadeService.findByMesAndStatus(anoMes, status)
                 .stream().map(mensalidadeMapper::toDTO).toList();
         return ResponseEntity.ok(dtos);
     }
+
+    @GetMapping("/status/{status}")
+    public ResponseEntity<?> getByStatus(@PathVariable StatusPagamento status, Authentication auth) {
+        if (!RoleUtil.isTesouraria(auth)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Sem permissão para executar ação");
+        }
+
+        List<MensalidadeResponseDTO> dtos = mensalidadeService.findByStatus(status)
+                .stream().map(mensalidadeMapper::toDTO).toList();
+        return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping("/periodo/{inicio}/{fim}/status/{status}")
+    public ResponseEntity<?> getByPeriodoAndStatus(@PathVariable String inicio, @PathVariable String fim,
+                                                   @PathVariable StatusPagamento status, Authentication auth) {
+        if (!RoleUtil.isTesouraria(auth)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Sem permissão para executar ação");
+        }
+
+        List<MensalidadeResponseDTO> dtos = mensalidadeService.findByPeriodoAndStatus(inicio, fim, status)
+                .stream().map(mensalidadeMapper::toDTO).toList();
+        return ResponseEntity.ok(dtos);
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable UUID id,

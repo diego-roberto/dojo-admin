@@ -34,6 +34,14 @@ public class MensalidadeService {
         return mensalidadeRepository.findByMesReferenciaAndStatusPagamento(mes, status);
     }
 
+    public List<Mensalidade> findByStatus(StatusPagamento status) {
+        return mensalidadeRepository.findByStatusPagamento(status);
+    }
+
+    public List<Mensalidade> findByPeriodoAndStatus(String inicio, String fim, StatusPagamento status) {
+        return mensalidadeRepository.findByPeriodoAndStatus(inicio, fim, status);
+    }
+
     @Transactional
     public Mensalidade update(UUID id, MensalidadeRequestDTO dto) {
         Mensalidade existing = mensalidadeRepository.findById(id)

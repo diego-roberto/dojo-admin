@@ -33,6 +33,7 @@ public class MensalidadeMapper {
         return MensalidadeResponseDTO.builder()
                 .id(mensalidade.getId())
                 .alunoId(mensalidade.getAluno().getId())
+                .nomeAluno(mensalidade.getAluno().getNome())
                 .mesReferencia(mensalidade.getMesReferencia())
                 .statusPagamento(mensalidade.getStatusPagamento())
                 .isencao(mensalidade.getIsencao())
