@@ -15,10 +15,6 @@ export default function MensalidadeForm({ mensalidade, onSubmit, onCancel }) {
 
   const isEditing = mensalidade && mensalidade.id;
 
-  if (mensalidade === null) {
-    return <p>Carregando...</p>;
-  }
-
   useEffect(() => {
     setForm(
       mensalidade || {
