@@ -85,6 +85,17 @@ public class MensalidadeController {
         return ResponseEntity.ok(dtos);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable UUID id, Authentication auth) {
+        if (!RoleUtil.isTesouraria(auth)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Sem permissão para executar ação");
+        }
+
+        return mensalidadeService.findById(id)
+                .map(m -> ResponseEntity.ok(mensalidadeMapper.toDTO(m)))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Mensalidade não encontrada"));
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable UUID id,

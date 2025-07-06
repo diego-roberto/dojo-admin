@@ -1,6 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-export default function MensalidadeList({ mensalidades, onEdit }) {
+export default function MensalidadeList({ mensalidades }) {
   return (
     <div>
       <h2 className="font-bold text-lg mb-2">Mensalidades</h2>
@@ -20,12 +21,12 @@ export default function MensalidadeList({ mensalidades, onEdit }) {
               <td className="p-2">{m.mesReferencia}</td>
               <td className="p-2">{m.statusPagamento}</td>
               <td className="p-2 text-right">
-                <button
-                  onClick={() => onEdit(m)}
+                <Link
+                  to={`/mensalidades/${m.id}`}
                   className="text-blue-600 underline"
                 >
                   Editar
-                </button>
+                </Link>
               </td>
             </tr>
           ))}
@@ -34,3 +35,4 @@ export default function MensalidadeList({ mensalidades, onEdit }) {
     </div>
   );
 }
+

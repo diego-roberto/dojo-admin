@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import Layout from "./components/Layout";
 import AlunoPage from "./pages/AlunoPage";
 import MensalidadePage from "./pages/MensalidadePage";
+import MensalidadeFormPage from "./pages/MensalidadeFormPage";
 import AulaPage from "./pages/AulaPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -35,6 +36,8 @@ export default function App() {
             <Route path="alunos" element={<AlunoPage />} />
             <Route path="alunos/:id" element={<AlunoPage />} />
             <Route path="mensalidades" element={<MensalidadePage />} />
+            <Route path="mensalidades/new" element={<MensalidadeFormPage />} />
+            <Route path="mensalidades/:id" element={<MensalidadeFormPage />} />
             <Route path="aulas" element={<AulaPage />} />
           </Route>
         </Routes>

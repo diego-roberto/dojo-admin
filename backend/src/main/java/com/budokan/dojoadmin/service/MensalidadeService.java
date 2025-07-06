@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -40,6 +41,10 @@ public class MensalidadeService {
 
     public List<Mensalidade> findByPeriodoAndStatus(String inicio, String fim, StatusPagamento status) {
         return mensalidadeRepository.findByPeriodoAndStatus(inicio, fim, status);
+    }
+
+    public Optional<Mensalidade> findById(UUID id) {
+        return mensalidadeRepository.findById(id);
     }
 
     @Transactional

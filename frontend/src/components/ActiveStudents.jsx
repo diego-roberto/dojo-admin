@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../api";
+import { faixaLabel } from "../enums";
 
 export default function ActiveStudents() {
   const [alunos, setAlunos] = useState([]);
@@ -40,7 +41,7 @@ export default function ActiveStudents() {
                 {a.nome}
               </Link>
               <span className="block">{a.graduacaoLabel}</span>
-              <span className="block">{a.faixaAtual}</span>
+              <span className="block">{faixaLabel(a.faixaAtual)}</span>
               {a.dataNascimento && (
                 <span className="block">{a.dataNascimento}</span>
               )}
