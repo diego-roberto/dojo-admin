@@ -28,9 +28,18 @@ export default function AulaPage() {
   };
 
   return (
-    <div className="p-4 space-y-6 max-w-3xl mx-auto">
-      <AulaForm onSubmit={handleCreate} />
-      <AulaList aulas={aulas} />
+    <div className="p-4 max-w-7xl mx-auto">
+      <div className="flex flex-col md:flex-row gap-20">
+        
+        <div className="flex flex-col flex-1">
+          <AulaForm onSubmit={handleCreate} />
+        </div>
+
+        <div className="flex flex-col flex-1 gap-6">
+          <AulaList aulas={aulas} />
+        </div>
+
+      </div>
     </div>
   );
 }

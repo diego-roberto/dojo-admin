@@ -45,7 +45,8 @@ export default function AulaForm({ onSubmit }) {
         value={data}
         onChange={(e) => setData(e.target.value)}
         className="border p-2 w-full"
-      />
+      /> <br/> <br/>
+      <span className="text-sm">Responsável</span>
       <select
         value={senseiId}
         onChange={(e) => setSenseiId(e.target.value)}
@@ -57,7 +58,8 @@ export default function AulaForm({ onSubmit }) {
             {a.nome}
           </option>
         ))}
-      </select>
+      </select> <br/> <br/>
+      <span className="text-sm">Alunos</span>
       <select
         multiple
         value={participantes}
@@ -75,7 +77,7 @@ export default function AulaForm({ onSubmit }) {
         value={fotoUrl}
         onChange={(e) => setFotoUrl(e.target.value)}
         className="border p-2 w-full"
-      />
+      /> <br/> <br/>
       <button type="submit" className="bg-[#E30C0C] text-white px-4 py-1 rounded">
         Registrar
       </button>

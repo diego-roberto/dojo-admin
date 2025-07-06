@@ -42,9 +42,9 @@ export default function MensalidadeFilter({ onResults }) {
     <form onSubmit={handleSubmit} className="space-y-2 border p-4">
       <h2 className="font-bold text-lg">Filtrar Mensalidades</h2>
       <label className="block">
-        <span className="text-sm">Nome do aluno</span>
         <input
           name="nome"
+          placeholder="Nome do aluno"
           value={form.nome}
           onChange={handleChange}
           className="border p-2 w-full"

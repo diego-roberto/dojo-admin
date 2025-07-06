@@ -138,9 +138,9 @@ export default function MensalidadeForm({ mensalidade, onSubmit, onCancel }) {
         />
       </label>
       <label className="block">
-        <span className="text-sm">URL do comprovante</span>
         <input
           name="comprovanteUrl"
+          placeholder="URL do comprovante"
           value={form.comprovanteUrl || ""}
           onChange={handleChange}
           className="border p-2 w-full"

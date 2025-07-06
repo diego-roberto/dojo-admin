@@ -3,7 +3,7 @@ import React from "react";
 export default function AulaList({ aulas }) {
   return (
     <div>
-      <h2 className="font-bold text-lg mb-2">Aulas</h2>
+      <h2 className="font-bold text-lg mb-2">Últimas Aulas</h2>
       <table className="min-w-full border">
         <thead>
           <tr className="bg-gray-200">
