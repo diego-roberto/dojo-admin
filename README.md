@@ -1,6 +1,6 @@
 # Dojo Admin 🥋
 
-# WORK IN PROGRESS! 😉
+
 
 <h3>
 
@@ -24,9 +24,3 @@ Frontend em React 19</br>
 A partir da pasta raiz do projeto execute o comando abaixo para subir backend e frontend simultaneamente:
 > docker-compose up --build
 
-Para desenvolver apenas o frontend sem Docker:
-```bash
-cd frontend
-npm install
-npm start
-```
