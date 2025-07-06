@@ -9,7 +9,7 @@ export default function Navbar() {
     isActive ? "underline font-semibold" : "hover:underline";
 
   return (
-    <nav className="bg-[#E30C0C] text-white p-4 flex items-center justify-between">
+    <nav className="bg-[#E30C0C] text-white p-4 flex items-center justify-between fixed top-0 w-full z-10">
       <div className="flex items-center space-x-4">
         <NavLink to="/" className="mr-4 font-bold">
           Budokan

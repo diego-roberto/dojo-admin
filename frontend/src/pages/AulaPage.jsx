@@ -28,7 +28,7 @@ export default function AulaPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="p-4 space-y-6 max-w-3xl mx-auto">
       <AulaForm onSubmit={handleCreate} />
       <AulaList aulas={aulas} />
     </div>

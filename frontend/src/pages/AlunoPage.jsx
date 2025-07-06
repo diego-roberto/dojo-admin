@@ -46,7 +46,7 @@ export default function AlunoPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="p-4 space-y-6 max-w-3xl mx-auto">
       <AlunoForm aluno={editing} onSubmit={handleSave} onCancel={() => setEditing(null)} />
       <AlunoList alunos={alunos} onEdit={setEditing} />
     </div>
