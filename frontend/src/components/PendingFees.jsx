@@ -31,14 +31,18 @@ export default function PendingFees() {
   if (error) return <p className="mt-4 text-center text-red-500">{error}</p>;
 
   return (
-    <section className="bg-white p-4 rounded shadow">
+    <section className="bg-white p-4 rounded shadow border border-[#E30C0C]">
       <h2 className="text-xl font-semibold mb-2">Mensalidades pendentes</h2>
       {pendentes.length === 0 ? (
         <p>Nenhuma Mensalidade pendente.</p>
       ) : (
-        <ul className="list-disc pl-5 space-y-1">
+        <ul className="space-y-2">
           {pendentes.map((m) => (
-            <li key={m.id}>{`${m.nomeAluno} - ${m.mesReferencia} - ${m.statusPagamento}`}</li>
+            <li key={m.id} className="flex flex-col sm:flex-row sm:space-x-2">
+              <span>{m.nomeAluno}</span>
+              <span>{m.mesReferencia}</span>
+              <span>{m.statusPagamento}</span>
+            </li>
           ))}
         </ul>
       )}

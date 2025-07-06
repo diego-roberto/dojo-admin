@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import api from "../api";
 
 export default function ActiveStudents() {
@@ -24,20 +25,25 @@ export default function ActiveStudents() {
   if (error) return <p className="mt-4 text-center text-red-500">{error}</p>;
 
   return (
-    <section className="bg-white p-4 rounded shadow">
+    <section className="bg-white p-4 rounded shadow border border-[#E30C0C]">
       <h2 className="text-xl font-semibold mb-2">Alunos ativos</h2>
       {alunos.length === 0 ? (
         <p>Nenhum aluno ativo.</p>
       ) : (
-        <ul className="list-disc pl-5 space-y-1">
+        <ul className="space-y-2">
           {alunos.map((a) => (
-            <li key={a.id}>
-              {a.nome} - {a.graduacaoLabel} - {a.faixaAtual}
-              {a.dataNascimento && (
-                <> - {a.dataNascimento} - {a.dataUltimoExame}
-                  {a.observacoes && ` - ${a.observacoes}`}
-                </>
-              )}
+            <li key={a.id} className="flex flex-col sm:flex-row sm:space-x-2">
+              <Link
+                to={`/alunos/${a.id}`}
+                className="text-blue-600 underline"
+              >
+                {a.nome}
+              </Link>
+              <span>{a.graduacaoLabel}</span>
+              <span>{a.faixaAtual}</span>
+              {a.dataNascimento && <span>{a.dataNascimento}</span>}
+              {a.dataUltimoExame && <span>{a.dataUltimoExame}</span>}
+              {a.observacoes && <span>{a.observacoes}</span>}
             </li>
           ))}
         </ul>
