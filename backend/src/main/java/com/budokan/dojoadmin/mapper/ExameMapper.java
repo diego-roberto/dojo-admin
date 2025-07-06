@@ -11,6 +11,7 @@ public class ExameMapper {
 
     public ExameResponseDTO toDTO(Exame exame) {
         return ExameResponseDTO.builder()
+                .alunoId(exame.getAluno() != null ? exame.getAluno().getId() : null)
                 .nomeAluno(exame.getAluno() != null ? exame.getAluno().getNome() : null)
                 .dataExame(exame.getDataExame())
                 .kyu(exame.getKyu())

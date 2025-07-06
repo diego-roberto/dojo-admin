@@ -33,6 +33,7 @@ export default function App() {
           >
             <Route index element={<Dashboard />} />
             <Route path="alunos" element={<AlunoPage />} />
+            <Route path="alunos/:id" element={<AlunoPage />} />
             <Route path="mensalidades" element={<MensalidadePage />} />
             <Route path="aulas" element={<AulaPage />} />
           </Route>
