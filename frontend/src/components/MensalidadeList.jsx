@@ -2,6 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export default function MensalidadeList({ mensalidades }) {
+  if (mensalidades.length === 0) {
+    return <p className="mt-4">Nenhuma mensalidade encontrada.</p>;
+  }
+
   return (
     <div>
       <h2 className="font-bold text-lg mb-2">Mensalidades</h2>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import api from "../api";
 
 export default function MensalidadeForm({ mensalidade, onSubmit, onCancel }) {
   const [form, setForm] = useState({
@@ -10,6 +11,13 @@ export default function MensalidadeForm({ mensalidade, onSubmit, onCancel }) {
     motivoIsencao: "",
     comprovanteUrl: "",
   });
+  const [alunos, setAlunos] = useState([]);
+
+  const isEditing = mensalidade && mensalidade.id;
+
+  if (mensalidade === null) {
+    return <p>Carregando...</p>;
+  }
 
   useEffect(() => {
     setForm(
@@ -24,6 +32,20 @@ export default function MensalidadeForm({ mensalidade, onSubmit, onCancel }) {
       }
     );
   }, [mensalidade]);
+
+  useEffect(() => {
+    async function loadAlunos() {
+      if (!isEditing) {
+        try {
+          const res = await api.get("/alunos/ativos");
+          setAlunos(res.data);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    }
+    loadAlunos();
+  }, [isEditing]);
 
   const handleChange = (e) =>
     setForm({
@@ -40,15 +62,33 @@ export default function MensalidadeForm({ mensalidade, onSubmit, onCancel }) {
       <h2 className="font-bold text-lg">
         {mensalidade && mensalidade.id ? "Editar Mensalidade" : "Nova Mensalidade"}
       </h2>
-      <label className="block">
-        <span className="text-sm">ID do aluno</span>
-        <input
-          name="alunoId"
-          value={form.alunoId}
-          onChange={handleChange}
-          className="border p-2 w-full"
-        />
-      </label>
+      {isEditing ? (
+        <label className="block">
+          <span className="text-sm">Aluno</span>
+          <input
+            value={mensalidade.nomeAluno}
+            disabled
+            className="border p-2 w-full bg-gray-100"
+          />
+        </label>
+      ) : (
+        <label className="block">
+          <span className="text-sm">Aluno</span>
+          <select
+            name="alunoId"
+            value={form.alunoId}
+            onChange={handleChange}
+            className="border p-2 w-full"
+          >
+            <option value="">Selecione</option>
+            {alunos.map((a) => (
+              <option key={a.id} value={a.id}>
+                {a.nome}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
       <label className="block">
         <span className="text-sm">Mês de referência</span>
         <input
