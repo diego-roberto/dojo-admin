@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../api";
+import { faixaLabel } from "../enums";
 
 export default function UpcomingExams() {
   const [exames, setExames] = useState([]);
@@ -41,7 +42,7 @@ export default function UpcomingExams() {
               </Link>
               <span>{e.dataExame}</span>
               <span>{e.kyu}º kyu</span>
-              <span>{e.faixaAlvo}</span>
+              <span>{faixaLabel(e.faixaAlvo)}</span>
             </li>
           ))}
         </ul>

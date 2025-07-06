@@ -5,12 +5,14 @@ import com.budokan.dojoadmin.entity.Mensalidade;
 import com.budokan.dojoadmin.enums.StatusPagamento;
 import com.budokan.dojoadmin.mapper.MensalidadeMapper;
 import com.budokan.dojoadmin.repository.MensalidadeRepository;
+import com.budokan.dojoadmin.service.AlunoService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -19,6 +21,7 @@ public class MensalidadeService {
 
     private final MensalidadeRepository mensalidadeRepository;
     private final MensalidadeMapper mensalidadeMapper;
+    private final AlunoService alunoService;
 
     @Transactional
     public Mensalidade create(MensalidadeRequestDTO dto) {
@@ -28,6 +31,13 @@ public class MensalidadeService {
 
     public List<Mensalidade> findByAluno(UUID alunoId) {
         return mensalidadeRepository.findByAlunoId(alunoId);
+    }
+
+    public List<Mensalidade> findByAlunoNome(String nome) {
+        UUID id = alunoService.findByName(nome)
+                .orElseThrow(() -> new NoSuchElementException("Aluno não encontrado"))
+                .getId();
+        return mensalidadeRepository.findByAlunoId(id);
     }
 
     public List<Mensalidade> findByMesAndStatus(String mes, StatusPagamento status) {
@@ -40,6 +50,10 @@ public class MensalidadeService {
 
     public List<Mensalidade> findByPeriodoAndStatus(String inicio, String fim, StatusPagamento status) {
         return mensalidadeRepository.findByPeriodoAndStatus(inicio, fim, status);
+    }
+
+    public Optional<Mensalidade> findById(UUID id) {
+        return mensalidadeRepository.findById(id);
     }
 
     @Transactional

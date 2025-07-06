@@ -15,7 +15,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/mensalidades")
@@ -48,6 +50,21 @@ public class MensalidadeController {
         List<MensalidadeResponseDTO> dtos = mensalidadeService.findByAluno(alunoId)
                 .stream().map(mensalidadeMapper::toDTO).toList();
         return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping("/aluno/nome/{nome}")
+    public ResponseEntity<?> getByAlunoNome(@PathVariable String nome, Authentication auth) {
+        if (!RoleUtil.isTesouraria(auth)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Sem permissão para executar ação");
+        }
+
+        try {
+            List<MensalidadeResponseDTO> dtos = mensalidadeService.findByAlunoNome(nome)
+                    .stream().map(mensalidadeMapper::toDTO).toList();
+            return ResponseEntity.ok(dtos);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     @GetMapping("/mes/{anoMes}/status/{status}")
@@ -85,6 +102,20 @@ public class MensalidadeController {
         return ResponseEntity.ok(dtos);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable UUID id, Authentication auth) {
+        if (!RoleUtil.isTesouraria(auth)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Sem permissão para executar ação");
+        }
+
+        Optional<Mensalidade> mensalidadeOpt = mensalidadeService.findById(id);
+        if (mensalidadeOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Mensalidade não encontrada");
+        }
+
+        MensalidadeResponseDTO dto = mensalidadeMapper.toDTO(mensalidadeOpt.get());
+        return ResponseEntity.ok(dto);
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable UUID id,
