@@ -10,6 +10,7 @@ import com.budokan.dojoadmin.repository.AulaRepository;
 import com.budokan.dojoadmin.repository.ExameRepository;
 import com.budokan.dojoadmin.repository.MensalidadeRepository;
 import com.budokan.dojoadmin.exception.AlunoVinculadoException;
+import com.budokan.dojoadmin.util.GraduacaoHelper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -136,5 +137,29 @@ public class AlunoService {
                 LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
                 acao);
     }
+
+    public long countActive() {
+        return alunoRepository.countByStatus(StatusAluno.ATIVO);
+    }
+
+    public List<Aluno> findAptosExame() {
+        LocalDate hoje = LocalDate.now();
+        return findAllActive().stream()
+                .filter(a -> !GraduacaoHelper.isDan(a.getGraduacaoKyu()))
+                .filter(a -> {
+                    Integer meses = GraduacaoHelper.getMesesCarenciaExame(a.getGraduacaoKyu());
+                    if (meses == null) {
+                        return false;
+                    }
+                    LocalDate ultimo = a.getDataUltimoExame();
+                    return ultimo == null || !ultimo.plusMonths(meses).isAfter(hoje);
+                })
+                .toList();
+    }
+
+    public List<Aluno> findAniversariantes(int mes) {
+        return alunoRepository.findAniversariantes(StatusAluno.ATIVO, mes);
+    }
+
 
 }

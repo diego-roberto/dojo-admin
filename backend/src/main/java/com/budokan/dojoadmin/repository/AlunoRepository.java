@@ -16,8 +16,12 @@ public interface AlunoRepository extends JpaRepository<Aluno, UUID> {
 
     List<Aluno> findByStatus(StatusAluno status);
     Optional<Aluno> findByUsuarioIgnoreCase(String username);
+    long countByStatus(StatusAluno status);
 
     @Query(value = "SELECT * FROM alunos WHERE unaccent(lower(nome)) LIKE unaccent(lower(concat('%', :nome, '%')))", nativeQuery = true)
     Optional<Aluno> findByNomeUnaccent(@Param("nome") String nome);
+
+    @Query("SELECT a FROM Aluno a WHERE a.status = :status AND FUNCTION('month', a.dataNascimento) = :mes")
+    List<Aluno> findAniversariantes(@Param("status") StatusAluno status, @Param("mes") int mes);
 
 }

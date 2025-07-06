@@ -33,4 +33,24 @@ public class GraduacaoHelper {
         return isDan(value) ? 100 + getDanLevel(value) : (11 - value); // Dan > Kyu
     }
 
+    /*
+     retorna quantidade de meses mínima entre exames de acordo com a graduação.
+     valores nulos indicam que não há controle (caso de faixas pretas)
+     */
+    public static Integer getMesesCarenciaExame(int value) {
+        if (isDan(value)) {
+            return null; // N/A para exames de Dan
+        }
+        if (value >= 6) { // 11º ao 6º kyu
+            return 3;
+        }
+        if (value >= 2) { // 5º ao 2º kyu
+            return 6;
+        }
+        if (value == 1) { // 1º kyu
+            return 12;
+        }
+        return null;
+    }
+
 }
