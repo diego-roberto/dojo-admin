@@ -32,18 +32,22 @@ export default function ActiveStudents() {
       ) : (
         <ul className="space-y-2">
           {alunos.map((a) => (
-            <li key={a.id} className="flex flex-col sm:flex-row sm:space-x-2">
+            <li key={a.id} className="space-y-1 border-b last:border-0 pb-2">
               <Link
                 to={`/alunos/${a.id}`}
-                className="text-blue-600 underline"
+                className="text-blue-600 underline block"
               >
                 {a.nome}
               </Link>
-              <span>{a.graduacaoLabel}</span>
-              <span>{a.faixaAtual}</span>
-              {a.dataNascimento && <span>{a.dataNascimento}</span>}
-              {a.dataUltimoExame && <span>{a.dataUltimoExame}</span>}
-              {a.observacoes && <span>{a.observacoes}</span>}
+              <span className="block">{a.graduacaoLabel}</span>
+              <span className="block">{a.faixaAtual}</span>
+              {a.dataNascimento && (
+                <span className="block">{a.dataNascimento}</span>
+              )}
+              {a.dataUltimoExame && (
+                <span className="block">{a.dataUltimoExame}</span>
+              )}
+              {a.observacoes && <span className="block">{a.observacoes}</span>}
             </li>
           ))}
         </ul>
