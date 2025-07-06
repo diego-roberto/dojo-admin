@@ -48,13 +48,11 @@ services:
 
   ## Frontend ##
   frontend:
-    image: node:latest
+    build:
+      context: ./frontend
+      dockerfile: docker/Dockerfile
     container_name: frontend
-    working_dir: /app
-    volumes:
-      - ./frontend:/app
     ports:
       - "3000:3000"
-    command: sh -c "npm install && npm start"
     networks:
       - app-network
