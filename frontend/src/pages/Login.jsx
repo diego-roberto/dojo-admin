@@ -29,6 +29,14 @@ export default function Login() {
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-xl shadow-lg w-full max-w-xs"
       >
+      <div className="flex justify-center mb-4">
+        <img
+          // src="/bdk_logo.png"
+          src="/shotokan_logo.png"
+          alt="Logo Budokan"
+          className="w-24 h-24 object-contain"
+        />
+      </div>
         <h1 className="text-2xl font-bold mb-6 text-center text-gray-700">Entrar</h1>
         <input
           className="w-full mb-4 p-2 border rounded focus:outline-none focus:ring"
