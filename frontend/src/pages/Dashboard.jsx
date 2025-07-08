@@ -1,7 +1,7 @@
 import React from "react";
 import ActiveStudents from "../components/ActiveStudents";
-import UpcomingExams from "../components/UpcomingExams";
-import PendingFees from "../components/PendingFees";
+import UpcomingExams from "../components/ProximosExames";
+import PendingFees from "../components/MensalidadePending";
 
 export default function Dashboard() {
   return (

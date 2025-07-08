@@ -36,18 +36,11 @@ export default function ActiveStudents() {
             <li key={a.id} className="space-y-1 border-b last:border-0 pb-2">
               <Link
                 to={`/alunos/${a.id}`}
-                className="text-blue-600 underline block"
+                className="text-blue-600 underline"
               >
                 {a.nome}
               </Link>
-              <span className="block">{a.graduacaoLabel}</span>
-              <span className="block">{faixaLabel(a.faixaAtual)}</span>
-              {a.dataNascimento && (
-                <span className="block">{a.dataNascimento}</span>
-              )}
-              {a.dataUltimoExame && (
-                <span className="block">{a.dataUltimoExame}</span>
-              )}
+              <span> - {faixaLabel(a.faixaAtual)} | {a.graduacaoLabel}</span>
               {a.observacoes && <span className="block">{a.observacoes}</span>}
             </li>
           ))}

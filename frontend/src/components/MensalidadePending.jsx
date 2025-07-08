@@ -39,9 +39,7 @@ export default function PendingFees() {
         <ul className="space-y-2">
           {pendentes.map((m) => (
             <li key={m.id} className="space-y-1 border-b last:border-0 pb-2">
-              <span className="block">{m.nomeAluno}</span>
-              <span className="block">{m.mesReferencia}</span>
-              <span className="block">{m.statusPagamento}</span>
+              <span className>{m.nomeAluno}</span> - <span>{m.mesReferencia}</span>
             </li>
           ))}
         </ul>
