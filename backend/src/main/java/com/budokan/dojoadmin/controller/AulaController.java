@@ -90,5 +90,25 @@ public class AulaController {
         return ResponseEntity.ok(pageResult);
     }
 
+    @GetMapping("/aluno/{id}")
+    public ResponseEntity<Page<AulaResponseDTO>> historicoPorAluno(@PathVariable UUID id,
+                                                                   @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
+                                                                   @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim,
+                                                                   @RequestParam(defaultValue = "0") int page,
+                                                                   @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("data").descending());
+
+        Page<AulaResponseDTO> pageResult;
+        if (inicio != null && fim != null) {
+            pageResult = aulaService.findByAlunoAndDateBetween(id, inicio, fim, pageable)
+                    .map(aulaMapper::toDTO);
+        } else {
+            pageResult = aulaService.findByAluno(id, pageable)
+                    .map(aulaMapper::toDTO);
+        }
+
+        return ResponseEntity.ok(pageResult);
+    }
+
 }
 

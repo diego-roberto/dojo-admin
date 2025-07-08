@@ -23,9 +23,10 @@ export default function AulaForm({ onSubmit }) {
   const blackBelts = alunos.filter((a) => a.graduacaoKyu >= 91);
   const participantesOptions = alunos.filter((a) => a.id !== senseiId);
 
-  const handleParticipantesChange = (e) => {
-    const selected = Array.from(e.target.selectedOptions).map((o) => o.value);
-    setParticipantes(selected);
+  const handleParticipantesChange = (id) => {
+    setParticipantes((prev) =>
+      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]
+    );
   };
 
   const handleSubmit = (e) => {
@@ -60,18 +61,20 @@ export default function AulaForm({ onSubmit }) {
         ))}
       </select> <br/> <br/>
       <span className="text-sm">Alunos</span>
-      <select
-        multiple
-        value={participantes}
-        onChange={handleParticipantesChange}
-        className="border p-2 w-full h-32"
-      >
+      <div className="border p-2 w-full h-32 overflow-y-auto">
         {participantesOptions.map((a) => (
-          <option key={a.id} value={a.id}>
+          <label key={a.id} className="block">
+            <input
+              type="checkbox"
+              value={a.id}
+              checked={participantes.includes(a.id)}
+              onChange={() => handleParticipantesChange(a.id)}
+              className="mr-2"
+            />
             {a.nome}
-          </option>
+          </label>
         ))}
-      </select>
+      </div>
       <input
         placeholder="URL da foto da aula"
         value={fotoUrl}
