@@ -28,5 +28,7 @@ public class AulaRequestDTO {
 
     private String fotoUrl;
 
+    private String comentarios;
+
 }
 

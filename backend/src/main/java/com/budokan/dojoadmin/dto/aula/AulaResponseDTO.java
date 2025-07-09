@@ -18,6 +18,7 @@ public class AulaResponseDTO {
     private UUID id;
     private LocalDate data;
     private String fotoUrl;
+    private String comentarios;
     private String nomeSensei;
     private List<String> nomesParticipantes;
 

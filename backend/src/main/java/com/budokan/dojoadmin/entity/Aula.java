@@ -26,6 +26,9 @@ public class Aula {
 
     private String fotoUrl; /* url da imagem */
 
+    @Column(columnDefinition = "text")
+    private String comentarios; /* visitantes ou observações */
+
     @ManyToMany
     @JoinTable(
             name = "presencas",
@@ -37,5 +40,4 @@ public class Aula {
     @ManyToOne(optional = false)
     @JoinColumn(name = "sensei_id")
     private Aluno senseiResponsavel;
-
 }
