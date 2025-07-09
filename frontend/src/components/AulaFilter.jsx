@@ -28,9 +28,9 @@ export default function AulaFilter({ onSearch }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-2 border p-4 max-w-md">
+    <form onSubmit={handleSubmit} className="space-y-2 border p-4">
       <h2 className="font-bold text-lg">Buscar Aulas</h2>
-      <label className="block">
+      <label className="block max-w-md">
         <span className="text-sm">Buscar por</span>
         <select
           value={tipo}
@@ -44,7 +44,7 @@ export default function AulaFilter({ onSearch }) {
         </select>
       </label>
       {tipo === "dia" && (
-        <label className="block">
+        <label className="block max-w-md">
           <span className="text-sm">Data</span>
           <input
             type="date"
@@ -55,7 +55,7 @@ export default function AulaFilter({ onSearch }) {
         </label>
       )}
       {tipo === "sensei" && (
-        <label className="block">
+        <label className="block max-w-md">
           <span className="text-sm">Sensei</span>
           <select
             value={senseiId}
@@ -72,7 +72,7 @@ export default function AulaFilter({ onSearch }) {
         </label>
       )}
       {tipo === "aluno" && (
-        <label className="block">
+        <label className="block max-w-md">
           <span className="text-sm">Aluno</span>
           <select
             value={alunoId}
@@ -87,7 +87,7 @@ export default function AulaFilter({ onSearch }) {
             ))}
           </select>
         </label>
-      )}
+      )} <br/>
       <button type="submit" className="bg-[#E30C0C] text-white px-4 py-1 rounded">
         Buscar
       </button>
