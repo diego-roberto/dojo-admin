@@ -28,16 +28,17 @@ export default function AulaDetailPage() {
       <h2 className="font-bold text-lg">Aula em {aula.data}</h2>
       <div className="flex space-x-4">
         {aula.fotoUrl && (
-          <img
+          <iframe
             src={aula.fotoUrl}
             alt="Foto da aula"
+            width="640" height="480"
             className="w-48 h-48 object-cover border"
           />
         )}
         <div>
           <p>
             <strong>Sensei:</strong> {aula.nomeSensei}
-          </p>
+          </p> <br/>
           <p>
             <strong>Participantes:</strong> {aula.nomesParticipantes.join(", ")}
           </p>
