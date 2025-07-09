@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import api from "../api";
+import { formatDate } from "../utils";
 
 export default function AulaDetailPage() {
   const { id } = useParams();
@@ -25,7 +26,7 @@ export default function AulaDetailPage() {
 
   return (
     <div className="p-4 space-y-4 max-w-3xl mx-auto">
-      <h2 className="font-bold text-lg">Aula em {aula.data}</h2>
+      <h2 className="font-bold text-lg">Aula em {formatDate(aula.data)}</h2>
       <div className="flex-direction: column">
         {aula.fotoUrl && (
           <iframe
@@ -42,6 +43,11 @@ export default function AulaDetailPage() {
           <p>
             <strong>Participantes:</strong> {aula.nomesParticipantes.join(", ")}
           </p>
+          {aula.comentarios && (
+            <p>
+              <strong>Comentários:</strong> {aula.comentarios}
+            </p>
+          )}
         </div>
       </div>
       <div className="space-x-2">

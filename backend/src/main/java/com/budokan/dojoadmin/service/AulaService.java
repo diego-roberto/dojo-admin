@@ -85,6 +85,7 @@ public class AulaService {
 
         existing.setData(updated.getData());
         existing.setFotoUrl(updated.getFotoUrl());
+        existing.setComentarios(updated.getComentarios());
         existing.setSenseiResponsavel(updated.getSenseiResponsavel());
         existing.setParticipantes(updated.getParticipantes());
 

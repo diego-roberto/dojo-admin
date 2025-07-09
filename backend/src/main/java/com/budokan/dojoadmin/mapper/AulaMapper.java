@@ -29,6 +29,7 @@ public class AulaMapper {
         return Aula.builder()
                 .data(dto.getData())
                 .fotoUrl(dto.getFotoUrl())
+                .comentarios(dto.getComentarios())
                 .senseiResponsavel(sensei)
                 .participantes(participantes)
                 .build();
@@ -39,6 +40,7 @@ public class AulaMapper {
                 aula.getId(),
                 aula.getData(),
                 aula.getFotoUrl(),
+                aula.getComentarios(),
                 aula.getSenseiResponsavel().getNome(),
                 aula.getParticipantes().stream().map(Aluno::getNome).toList(),
                 aula.getSenseiResponsavel().getId(),

@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { formatDate } from "../utils";
 
 export default function AulaList({ aulas, title, page, totalPages, onPageChange }) {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ export default function AulaList({ aulas, title, page, totalPages, onPageChange 
               className="border-t hover:bg-gray-50 cursor-pointer"
               onClick={() => navigate(`/aulas/${a.id}`)}
             >
-              <td className="p-2">{a.data}</td>
+              <td className="p-2">{formatDate(a.data)}</td>
               <td className="p-2">{a.nomeSensei}</td>
               <td className="p-2">{a.nomesParticipantes.join(", ")}</td>
             </tr>

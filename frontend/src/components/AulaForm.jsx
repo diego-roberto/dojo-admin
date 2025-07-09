@@ -6,6 +6,7 @@ export default function AulaForm({ aula, onSubmit, onCancel }) {
   const [fotoUrl, setFotoUrl] = useState("");
   const [senseiId, setSenseiId] = useState("");
   const [participantes, setParticipantes] = useState([]);
+  const [comentarios, setComentarios] = useState("");
   const [alunos, setAlunos] = useState([]);
 
   useEffect(() => {
@@ -25,6 +26,7 @@ export default function AulaForm({ aula, onSubmit, onCancel }) {
     setFotoUrl(aula?.fotoUrl || "");
     setSenseiId(aula?.senseiId || "");
     setParticipantes(aula?.participantesIds || []);
+    setComentarios(aula?.comentarios || "");
   }, [aula]);
 
   const blackBelts = alunos.filter((a) => a.graduacaoKyu >= 91);
@@ -38,7 +40,7 @@ export default function AulaForm({ aula, onSubmit, onCancel }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ data, senseiId, participantes, fotoUrl });
+    onSubmit({ data, senseiId, participantes, fotoUrl, comentarios });
   };
 
   return (
@@ -84,6 +86,12 @@ export default function AulaForm({ aula, onSubmit, onCancel }) {
         placeholder="URL da foto da aula"
         value={fotoUrl}
         onChange={(e) => setFotoUrl(e.target.value)}
+        className="border p-2 w-full"
+      /> <br/> <br/>
+      <textarea
+        placeholder="Comentários"
+        value={comentarios}
+        onChange={(e) => setComentarios(e.target.value)}
         className="border p-2 w-full"
       /> <br/> <br/>
       <div className="space-x-2">
