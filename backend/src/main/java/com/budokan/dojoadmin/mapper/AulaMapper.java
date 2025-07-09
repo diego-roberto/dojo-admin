@@ -40,7 +40,9 @@ public class AulaMapper {
                 aula.getData(),
                 aula.getFotoUrl(),
                 aula.getSenseiResponsavel().getNome(),
-                aula.getParticipantes().stream().map(Aluno::getNome).toList()
+                aula.getParticipantes().stream().map(Aluno::getNome).toList(),
+                aula.getSenseiResponsavel().getId(),
+                aula.getParticipantes().stream().map(Aluno::getId).toList()
         );
     }
 

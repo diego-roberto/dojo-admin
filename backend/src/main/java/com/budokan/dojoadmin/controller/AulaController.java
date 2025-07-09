@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/aulas")
@@ -47,6 +48,28 @@ public class AulaController {
             Aula aula = aulaService.save(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(aulaMapper.toDTO(aula));
         } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable UUID id) {
+        try {
+            Aula aula = aulaService.findById(id);
+            return ResponseEntity.ok(aulaMapper.toDTO(aula));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Aula não encontrada");
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody @Valid AulaRequestDTO dto, Authentication auth) {
+        if (!RoleUtil.isSensei(auth)) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Apenas senseis podem editar aulas");
+
+        try {
+            Aula aula = aulaService.update(id, dto);
+            return ResponseEntity.ok(aulaMapper.toDTO(aula));
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -84,6 +107,26 @@ public class AulaController {
                     .map(aulaMapper::toDTO);
         } else {
             pageResult = aulaService.findBySensei(id, pageable)
+                    .map(aulaMapper::toDTO);
+        }
+
+        return ResponseEntity.ok(pageResult);
+    }
+
+    @GetMapping("/aluno/{id}")
+    public ResponseEntity<Page<AulaResponseDTO>> historicoPorAluno(@PathVariable UUID id,
+                                                                   @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
+                                                                   @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim,
+                                                                   @RequestParam(defaultValue = "0") int page,
+                                                                   @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("data").descending());
+
+        Page<AulaResponseDTO> pageResult;
+        if (inicio != null && fim != null) {
+            pageResult = aulaService.findByAlunoAndDateBetween(id, inicio, fim, pageable)
+                    .map(aulaMapper::toDTO);
+        } else {
+            pageResult = aulaService.findByAluno(id, pageable)
                     .map(aulaMapper::toDTO);
         }
 

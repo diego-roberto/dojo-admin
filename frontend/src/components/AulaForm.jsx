@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../api";
 
-export default function AulaForm({ onSubmit }) {
+export default function AulaForm({ aula, onSubmit, onCancel }) {
   const [data, setData] = useState("");
   const [fotoUrl, setFotoUrl] = useState("");
   const [senseiId, setSenseiId] = useState("");
@@ -20,26 +20,32 @@ export default function AulaForm({ onSubmit }) {
     loadAlunos();
   }, []);
 
+  useEffect(() => {
+    setData(aula?.data || "");
+    setFotoUrl(aula?.fotoUrl || "");
+    setSenseiId(aula?.senseiId || "");
+    setParticipantes(aula?.participantesIds || []);
+  }, [aula]);
+
   const blackBelts = alunos.filter((a) => a.graduacaoKyu >= 91);
   const participantesOptions = alunos.filter((a) => a.id !== senseiId);
 
-  const handleParticipantesChange = (e) => {
-    const selected = Array.from(e.target.selectedOptions).map((o) => o.value);
-    setParticipantes(selected);
+  const handleParticipantesChange = (id) => {
+    setParticipantes((prev) =>
+      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]
+    );
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit({ data, senseiId, participantes, fotoUrl });
-    setData("");
-    setFotoUrl("");
-    setSenseiId("");
-    setParticipantes([]);
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-2 max-w-md">
-      <h2 className="font-bold text-lg">Nova Aula</h2>
+      <h2 className="font-bold text-lg">
+        {aula && aula.id ? "Editar Aula" : "Nova Aula"}
+      </h2>
       <input
         type="date"
         value={data}
@@ -60,27 +66,36 @@ export default function AulaForm({ onSubmit }) {
         ))}
       </select> <br/> <br/>
       <span className="text-sm">Alunos</span>
-      <select
-        multiple
-        value={participantes}
-        onChange={handleParticipantesChange}
-        className="border p-2 w-full h-32"
-      >
+      <div className="border p-2 w-full h-32 overflow-y-auto">
         {participantesOptions.map((a) => (
-          <option key={a.id} value={a.id}>
+          <label key={a.id} className="block">
+            <input
+              type="checkbox"
+              value={a.id}
+              checked={participantes.includes(a.id)}
+              onChange={() => handleParticipantesChange(a.id)}
+              className="mr-2"
+            />
             {a.nome}
-          </option>
+          </label>
         ))}
-      </select>
+      </div>
       <input
         placeholder="URL da foto da aula"
         value={fotoUrl}
         onChange={(e) => setFotoUrl(e.target.value)}
         className="border p-2 w-full"
       /> <br/> <br/>
-      <button type="submit" className="bg-[#E30C0C] text-white px-4 py-1 rounded">
-        Registrar
-      </button>
+      <div className="space-x-2">
+        <button type="submit" className="bg-[#E30C0C] text-white px-4 py-1 rounded">
+          Salvar
+        </button>
+        {onCancel && (
+          <button type="button" onClick={onCancel} className="px-4 py-1 border rounded">
+            Cancelar
+          </button>
+        )}
+      </div>
     </form>
   );
 }

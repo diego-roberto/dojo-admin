@@ -21,4 +21,8 @@ public class AulaResponseDTO {
     private String nomeSensei;
     private List<String> nomesParticipantes;
 
+    /* ids utilizados para edicao */
+    private UUID senseiId;
+    private List<UUID> participantesIds;
+
 }
