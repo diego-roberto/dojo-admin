@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -71,6 +72,23 @@ public class AulaService {
 
     public Page<Aula> findByAlunoAndDateBetween(UUID alunoId, LocalDate inicio, LocalDate fim, Pageable pageable) {
         return aulaRepository.findByParticipantes_IdAndDataBetween(alunoId, inicio, fim, pageable);
+    }
+
+    public Aula findById(UUID id) {
+        return aulaRepository.findById(id).orElseThrow(NoSuchElementException::new);
+    }
+
+    @Transactional
+    public Aula update(UUID id, AulaRequestDTO dto) {
+        Aula existing = aulaRepository.findById(id).orElseThrow();
+        Aula updated = aulaMapper.fromDTO(dto);
+
+        existing.setData(updated.getData());
+        existing.setFotoUrl(updated.getFotoUrl());
+        existing.setSenseiResponsavel(updated.getSenseiResponsavel());
+        existing.setParticipantes(updated.getParticipantes());
+
+        return aulaRepository.save(existing);
     }
 
 }

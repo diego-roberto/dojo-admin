@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/aulas")
@@ -47,6 +48,28 @@ public class AulaController {
             Aula aula = aulaService.save(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(aulaMapper.toDTO(aula));
         } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable UUID id) {
+        try {
+            Aula aula = aulaService.findById(id);
+            return ResponseEntity.ok(aulaMapper.toDTO(aula));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Aula não encontrada");
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody @Valid AulaRequestDTO dto, Authentication auth) {
+        if (!RoleUtil.isSensei(auth)) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Apenas senseis podem editar aulas");
+
+        try {
+            Aula aula = aulaService.update(id, dto);
+            return ResponseEntity.ok(aulaMapper.toDTO(aula));
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

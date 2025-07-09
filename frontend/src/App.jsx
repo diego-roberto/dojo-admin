@@ -9,6 +9,7 @@ import MensalidadePage from "./pages/MensalidadePage";
 import MensalidadeFormPage from "./pages/MensalidadeFormPage";
 import AulaPage from "./pages/AulaPage";
 import AulaFormPage from "./pages/AulaFormPage";
+import AulaDetailPage from "./pages/AulaDetailPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -41,6 +42,8 @@ export default function App() {
             <Route path="mensalidades/:id" element={<MensalidadeFormPage />} />
             <Route path="aulas" element={<AulaPage />} />
             <Route path="aulas/new" element={<AulaFormPage />} />
+            <Route path="aulas/:id" element={<AulaDetailPage />} />
+            <Route path="aulas/:id/edit" element={<AulaFormPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

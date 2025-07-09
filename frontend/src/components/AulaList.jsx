@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function AulaList({ aulas, title, page, totalPages, onPageChange }) {
+  const navigate = useNavigate();
   return (
     <div>
       <h2 className="font-bold text-lg mb-2">{title}</h2>
@@ -14,7 +16,11 @@ export default function AulaList({ aulas, title, page, totalPages, onPageChange 
         </thead>
         <tbody>
           {aulas.map((a) => (
-            <tr key={a.id} className="border-t">
+            <tr
+              key={a.id}
+              className="border-t hover:bg-gray-50 cursor-pointer"
+              onClick={() => navigate(`/aulas/${a.id}`)}
+            >
               <td className="p-2">{a.data}</td>
               <td className="p-2">{a.nomeSensei}</td>
               <td className="p-2">{a.nomesParticipantes.join(", ")}</td>
