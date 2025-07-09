@@ -26,16 +26,16 @@ export default function AulaDetailPage() {
   return (
     <div className="p-4 space-y-4 max-w-3xl mx-auto">
       <h2 className="font-bold text-lg">Aula em {aula.data}</h2>
-      <div className="flex space-x-4">
+      <div className="flex-direction: column">
         {aula.fotoUrl && (
           <iframe
             src={aula.fotoUrl}
             alt="Foto da aula"
-            width="640" height="480"
-            className="w-48 h-48 object-cover border"
+            width="800" height="600"
+            className=" object-cover border"
           />
         )}
-        <div>
+        <div class="flex-direction: column" style={{ padding: "3px" }}>
           <p>
             <strong>Sensei:</strong> {aula.nomeSensei}
           </p> <br/>
